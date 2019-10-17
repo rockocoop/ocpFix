@@ -26,6 +26,7 @@
   fetch:
     src: /etc/origin/node/bootstrap.kubeconfig
     dest: ../bootstrap.kubeconfig
+    flat: yes
   when: "'masters' in group_names"
 
 - name: copy bootstrap file to nodes
