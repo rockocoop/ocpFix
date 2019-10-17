@@ -1,20 +1,27 @@
-- name: correct node kubeconfig
+- name: correct node kubeconfig current context
   lineinfile:
     path: /etc/origin/node/node.kubeconfig
     regexp: '^current-context: '
     line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
     backup: yes
 
-- name: correct bootstrap node kubeconfig
+- name: correct node kubeconfig server value
+  lineinfile:
+    path: /etc/origin/node/node.kubeconfig
+    regexp: '    server: '
+    line: "    server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
+    backup: yes
+
+- name: correct bootstrap node kubeconfig current context
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
     regexp: '^current-context: '
     line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
     backup: yes
 
-- name: correct node kubeconfig 
+- name: correct bootstrap node kubeconfig server value
   lineinfile:
-    path: /etc/origin/node/node.kubeconfig
+    path: /etc/origin/node/bootstrap.kubeconfig
     regexp: '^server: '
     line: "server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
     backup: yes
@@ -22,14 +29,7 @@
 - name: correct bootstrap node kubeconfig
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '^server: '
-    line: "server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
-    backup: yes
-
-- name: correct bootstrap node kubeconfig
-  lineinfile:
-    path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '^name: ^443'
+    regexp: '^name: *443'
     line: "name: {{currentContext}}:{{apiPort}}"
     backup: yes
 
