@@ -3,12 +3,14 @@
     path: /etc/origin/node/node.kubeconfig
     regexp: '^current-context: '
     line: current-context: default/{{currentContext}}:8443/system:admin
+    backup: yes
 
 - name: correct bootstrap node kubeconfig
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
     regexp: '^current-context: '
     line: current-context: default/{{currentContext}}:8443/system:admin
+    backup: yes
 
 - name: correct master kubeconfig
   lineinfile:
@@ -16,3 +18,4 @@
     regexp: '^current-context: '
     line: current-context: default/{{currentContext}}:8443/system:admin
     when: "'masters' in group_names"
+    backup: yes
