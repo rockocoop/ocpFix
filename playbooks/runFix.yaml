@@ -1,5 +1,13 @@
 ---
 
+
+- hosts: nodes
+  gather_facts: false
+  serial: "100%"
+  roles:
+    - fixConfigs
+
+
 - hosts: localhost
   gather_facts: false
 
@@ -7,17 +15,12 @@
 
 
   - name: copy kubeconfig
-    fetch: 
+    fetch:
       src: /root/.kube/config
       dest: ../kubeconfig
-      flat: yes      
+      flat: yes
     delegate_to: "{{groups['masters'] | first}}"
 
-- hosts: nodes
-  gather_facts: false
-  serial: "100%"
-  roles:
-    - fixConfigs
 
 - hosts: nodes
   gather_facts: false
