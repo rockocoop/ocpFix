@@ -26,11 +26,18 @@
     line: "    server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
     backup: yes
 
-- name: correct bootstrap node kubeconfig
+- name: correct bootstrap node kubeconfig name value
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '  name: *443'
+    regexp: '  name: .*443'
     line: "  name: {{currentContext}}:{{apiPort}}"
+    backup: yes
+
+- name: correct bootstrap node kubeconfig server value
+  lineinfile:
+    path: /etc/origin/node/bootstrap.kubeconfig
+    regexp: '    cluster: '
+    line: "    cluster: {{currentContext}}:{{apiPort}}"
     backup: yes
 
 - name: correct master kubeconfig
