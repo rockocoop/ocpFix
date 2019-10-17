@@ -17,5 +17,5 @@
     path: /etc/origin/master/admin.kubeconfig
     regexp: '^current-context: '
     line: "current-context: default/{{currentContext}}:8443/system:admin"
-    when: "'masters' in group_names"
     backup: yes
+  when: "'masters' in group_names"
