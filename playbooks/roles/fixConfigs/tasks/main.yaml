@@ -4,6 +4,7 @@
     regexp: '^current-context: '
     line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
     backup: yes
+   when: "'masters' in group_names"
 
 - name: correct node kubeconfig server value
   lineinfile:
@@ -11,6 +12,7 @@
     regexp: '    server: '
     line: "    server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
     backup: yes
+  when: "'masters' in group_names"
 
 - name: correct bootstrap node kubeconfig current context
   lineinfile:
@@ -18,28 +20,20 @@
     regexp: '^current-context: '
     line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
     backup: yes
+  when: "'masters' in group_names"
 
-- name: correct bootstrap node kubeconfig server value
-  lineinfile:
-    path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '    server: '
-    line: "    server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
-    backup: yes
+- name: retrieve bootstrap file from master 
+  fetch:
+    src: /etc/origin/node/bootstrap.kubeconfig
+    dest: ../bootstrap.kubeconfig
+  when: "'masters' in group_names"
 
-- name: correct bootstrap node kubeconfig name value
-  lineinfile:
-    path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '  name: .*443$'
-    line: "  name: {{currentContext}}:{{apiPort}}"
-    backup: yes
-
-- name: correct bootstrap node kubeconfig server value
-  lineinfile:
-    path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '    cluster: '
-    line: "    cluster: {{currentContext}}:{{apiPort}}"
-    backup: yes
-
+- name: copy bootstrap file to nodes
+  copy:
+    src: ../bootstrap.kubeconfig
+    dest: /etc/origin/node/
+  when: "'masters' not in group_names"
+  
 - name: correct master kubeconfig
   lineinfile:
     path: /etc/origin/master/admin.kubeconfig
