@@ -42,3 +42,12 @@
     line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
     backup: yes
   when: "'masters' in group_names"
+
+- name: correct node kubeconfig current context
+  lineinfile:
+    path: /root/.kube/config
+    regexp: '^current-context: '
+    line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
+    backup: yes
+  when: "'masters' in group_names"
+
