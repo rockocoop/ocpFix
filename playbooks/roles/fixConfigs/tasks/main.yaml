@@ -12,6 +12,13 @@
     line: "current-context: default/{{currentContext}}:{{apiPort}}/system:admin"
     backup: yes
 
+- name: correct node kubeconfig 
+  lineinfile:
+    path: /etc/origin/node/node.kubeconfig
+    regexp: '^server: '
+    line: "server: https://{{openshift_master_cluster_hostname}}:{{apiPort}}"
+    backup: yes
+
 - name: correct bootstrap node kubeconfig
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
