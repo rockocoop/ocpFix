@@ -29,7 +29,7 @@
 - name: correct bootstrap node kubeconfig name value
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
-    regexp: '^  name: ^443$'
+    regexp: '  name: .*443$'
     line: "  name: {{currentContext}}:{{apiPort}}"
     backup: yes
 
