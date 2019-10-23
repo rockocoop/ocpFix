@@ -19,3 +19,7 @@
     src: ../bootstrap.kubeconfig
     dest: /etc/origin/master/admin.kubeconfig
   when: "'masters' in group_names"
+
+- name: approve all pending csrs
+  shell: "oc get csr -o name | xargs oc adm certificate approve"
+  delegate_to: "{{groups['masters'] | first}}"
