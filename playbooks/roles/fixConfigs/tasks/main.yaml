@@ -34,7 +34,20 @@
     src: ../bootstrap.kubeconfig
     dest: /etc/origin/node/
   when: "'masters' not in group_names"
-  
+
+- name: retrieve node kubeconfig file from master
+  fetch:
+    src: /etc/origin/node/node.kubeconfig
+    dest: ../node.kubeconfig
+    flat: yes
+  when: "'masters' in group_names"
+
+- name: copy node kubeconfig file to nodes
+  copy:
+    src: ../node.kubeconfig
+    dest: /etc/origin/node/
+  when: "'masters' not in group_names"
+
 - name: correct master kubeconfig
   lineinfile:
     path: /etc/origin/master/admin.kubeconfig
