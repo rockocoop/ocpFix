@@ -1,0 +1,21 @@
+- name: generate new bootstrap config
+  shell: oc serviceaccounts create-kubeconfig node-bootstrapper -n openshift-infra > bootstrap.kubeconfig
+  delegate_to:  "{{groups['masters'] | first}}"
+
+- name: copy to localhost
+  fetch:
+    src: /root/bootstrap.kubeconfig
+    dest: ../bootstrap.kubeconfig
+    flat: yes
+  delegate_to: "{{groups['masters'] | first}}"
+
+- name: copy to all nodes
+  copy:
+    src: ../bootstrap.kubeconfig
+    dest: /etc/origin/node/bootstrap.kubeconfig
+
+- name: replace admin.kubeconfig on masters
+  copy: 
+    src: ../bootstrap.kubeconfig
+    dest: /etc/origin/master/admin.kubeconfig
+  when: "'masters' in group_names"
