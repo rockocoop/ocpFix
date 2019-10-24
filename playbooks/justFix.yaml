@@ -1,0 +1,10 @@
+---
+
+
+- hosts: nodes
+  gather_facts: false
+  serial: "100%"
+
+
+  roles:
+    - fixConfigs
