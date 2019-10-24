@@ -38,6 +38,10 @@
   tasks:
 
 
+  - name: create rolebindings for new url for bootstrap
+    shell: "oc create rolebinding admin --clusterrole=admin --user=node-bootstrapper --namespace=openshift-infra"
+    delegate_to: "{{groups['masters'] | first}}"
+
   - name: Final Check | pause for 5 minutes
     pause:
       minutes: 5
