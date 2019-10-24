@@ -8,7 +8,7 @@
 
   roles:
     - fixConfigs
-
+    - generate_new_bootstrap
 
 - hosts: localhost
   gather_facts: false
@@ -30,11 +30,6 @@
   roles:
     - restart_nodes 
 
-- hosts: nodes
-  gather_facts: false
-  serial: "100%"
-  roles:
-    - generate_new_bootstrap
 
 - hosts: localhost
   gather_facts: false
