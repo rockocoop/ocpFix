@@ -14,7 +14,7 @@
     backup: yes
   when: "'masters' in group_names"
 
-- name: correct bootstrap node kubeconfig current context
+- name: correct bootstrap node kubeconfig current context under node dir
   lineinfile:
     path: /etc/origin/node/bootstrap.kubeconfig
     regexp: '^current-context: '
@@ -22,7 +22,7 @@
     backup: yes
   when: "'masters' in group_names"
 
-- name: retrieve bootstrap file from master 
+- name: retrieve bootstrap file from master node dir
   fetch:
     src: /etc/origin/node/bootstrap.kubeconfig
     dest: ../bootstrap.kubeconfig
