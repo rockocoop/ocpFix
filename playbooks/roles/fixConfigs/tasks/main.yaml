@@ -33,6 +33,7 @@
   copy:
     src: ../bootstrap.kubeconfig
     dest: /etc/origin/node/
+    backup: yes
   when: "'masters' not in group_names"
 
 - name: retrieve node kubeconfig file from master
@@ -46,6 +47,7 @@
   copy:
     src: ../node.kubeconfig
     dest: /etc/origin/node/
+    backup: yes
   when: "'masters' not in group_names"
 
 - name: correct master kubeconfig

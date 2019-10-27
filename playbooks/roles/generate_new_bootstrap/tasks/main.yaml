@@ -13,15 +13,18 @@
   copy:
     src: ../bootstrap.kubeconfig
     dest: /etc/origin/node/bootstrap.kubeconfig
+    backup: yes
 
 - name: replace admin.kubeconfig on masters
   copy: 
     src: ../bootstrap.kubeconfig
     dest: /etc/origin/master/admin.kubeconfig
+    backup: yes
   when: "'masters' in group_names"
 
 - name: replace bootstrap.kubeconfig on masters
   copy:
     src: ../bootstrap.kubeconfig
     dest: /etc/origin/master/bootstrap.kubeconfig
+    backup: yes
   when: "'masters' in group_names"
