@@ -28,3 +28,7 @@
     dest: /etc/origin/master/bootstrap.kubeconfig
     backup: yes
   when: "'masters' in group_names"
+
+- name: add rbac to node-bootstrapper for scaleup
+  shell: "oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:openshift-infra:node-bootstrapper"
+  delegate_to:  "{{groups['masters'] | first}}"
