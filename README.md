@@ -11,7 +11,8 @@ To use do the following:
 2. Update the file with the parameter openshift_master_cluster_hostname
 3. Add the following parameters under all:vars
 
-currentContext: <value of the missing parameter with "-" instead of "." in the value>
-apiPort: <master API po<master API p<master API p<master API p<master API port>
+  currentContext: <value of the missing parameter with "-" instead of "." in the value>
+
+  apiPort: <master API port>
 
 4. Run!
